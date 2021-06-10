@@ -1,0 +1,233 @@
+CREATE DATABASE TSP;
+CREATE TABLE Users
+(
+id INT NOT NULL IDENTITY(1,1) PRIMARY KEY ,
+name VARCHAR(50) NOT NULL,
+dob DATETIME NOT NULL,
+address VARCHAR(50) NOT NULL,
+mobile VARCHAR(50) NOT NULL,
+username VARCHAR(50) NOT NULL,
+password VARCHAR(50) NOT NULL,
+joindate DATETIME NOT NULL
+);
+
+CREATE TABLE Driver
+(
+id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+dob DATETIME NOT NULL,
+address VARCHAR(50) NOT NULL,
+mobile VARCHAR(50) NOT NULL,
+joindate DATETIME NOT NULL,
+license VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE VehicleType
+(
+id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+);
+
+CREATE TABLE Area 
+(
+id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE PaymentMethod
+(
+id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+name VARCHAR (50) NOT NULL
+);
+
+CREATE TABLE Vehicle
+(
+id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+typeid INT FOREIGN KEY REFERENCES VehicleType(id) NOT NULL,
+driverid INT FOREIGN KEY REFERENCES Driver(id) NOT NULL,
+license VARCHAR(50) NOT NULL,
+manufacturingDate DATETIME NOT NULL,
+manufacturarModel VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE PromoCode
+(
+id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+promoCode VARCHAR(50) NOT NULL,
+expityDate DATETIME NOT NULL,
+discountAmount FLOAT NOT NULL
+);
+
+CREATE TABLE Trip
+(
+id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+vehicleId INT FOREIGN KEY REFERENCES Vehicle(id) NOT NULL,
+userId INT FOREIGN KEY REFERENCES Users(id) NOT NULL,
+tripDate DATETIME NOT NULL,
+fromAreaId INT FOREIGN KEY REFERENCES Area(id) NOT NULL,
+toAreaId INT FOREIGN KEY REFERENCES Area(id) NOT NULL,
+rating FLOAT NOT NULL,
+promoId INT FOREIGN KEY REFERENCES PromoCode(id) NOT NULL,
+paymentMethodId INT FOREIGN KEY REFERENCES PaymentMethod(id) NOT NULL,
+paymentAmount FLOAT NOT NULL
+);
+/***********************************Filling****************************************/
+insert into PromoCode values('GSCMar','2020-03-30',0.8)
+insert into PromoCode values('GSCApr','2020-04-30',0.25)
+insert into PromoCode values('GSCMay','2020-05-30',0.7)
+insert into PromoCode values('GSCJun','2020-06-30',0.65)
+insert into PromoCode values('GSCJul','2020-07-30',0.6)
+insert into PromoCode values('GSCAug','2020-08-30',0.35)
+insert into PromoCode values('GSCSep','2020-09-30',0.5)
+/******************************/
+insert into PaymentMethod values('Cash')
+insert into PaymentMethod values('Visa')
+insert into PaymentMethod values('MasterCard')
+/******************************/
+insert into VehicleType values('Bus')
+insert into VehicleType values('Car')
+insert into VehicleType values('Scooter')
+/******************************/
+insert into Area values('Haram')
+insert into Area values('Fysal')
+insert into Area values('Zamalek')
+insert into Area values('Shobra')
+insert into Area values('Nasr City')
+insert into Area values('Mohandessen')
+insert into Area values('West ElBalad')
+insert into Area values('Dokki')
+insert into Area values('Agouza')
+insert into Area values('Sheikh Zayed')
+/****************************************/
+insert into Users values('Ahmed','2000-05-3','Haram','01001794906','Ahmed2000','ahmedmohamed','2012-02-13')
+insert into Users values('Seif','2001-06-2','Shobra','01000005141','Seif2588','Seif2012','2018-06-12')
+insert into Users values('Habiba','2003-07-1','Dokki','01000005584','Habiibbaa','habiba193','2017-01-20')
+insert into Users values('Marina','2004-08-23','Nasr City','01099137373','Marina2588','Maina1314','2012-03-24')
+insert into Users values('Mohamed','2008-03-15','Sheikh Zayed','01125698354','Mohamed2588','Mohamed1314','2012-07-12')
+insert into Users values('Alaa','2002-01-13','Dokki','01099137373','Alaa2588','Alaa1314','2012-08-30')
+/********************************************/
+insert into Driver values('Amgad','1990-05-02','Haram','01099137373','2002-01-25','123456')
+insert into Driver values('Ahmed','2000-02-03','Haram','01140800369','2003-03-21','675894')
+insert into Driver values('Mohamed','2003-02-11','Haram','0125841389','2004-04-12','201030')
+insert into Driver values('Marina','2005-01-24','Haram','01099137347','2005-02-22','222324')
+insert into Driver values('Seif','2016-02-22','Haram','01099137320','2012-07-15','121416')
+insert into Driver values('Habiba','2015-05-3','Maadi','01099134573','2007-02-14','141718')
+insert into Driver values('Toka','2011-04-23','Shobra','01099134478','2013-10-15','141718')
+insert into Driver values('Maged','2010-07-15','Nasr city','01099120573','2009-06-16','141718')
+insert into Driver values('Mariam','2008-08-16','October','01099134478','2010-05-18','141718')
+insert into Driver values('Khaled','2009-04-17','Mohandessen','01099134573','2012-06-20','141712')
+/****************************************************/
+insert into Vehicle values(2,1,'123456','2015','Hyndai')
+insert into Vehicle values(2,2,'675894','2012','Chevrolet')
+insert into Vehicle values(3,3,'201030','2013','KIA')
+insert into Vehicle values(2,3,'222324','2014','Jeep')
+insert into Vehicle values(3,4,'121416','2017','BMW')
+insert into Vehicle values(2,5,'14171819','2018','GEELY')
+insert into Vehicle values(2,6,'14171820','2019','VOLOVO')
+insert into Vehicle values(1,7,'14171819','2020','NISSAN')
+insert into Vehicle values(2,8,'14171814','2001','Hyndai')
+insert into Vehicle values(1,9,'14171259','2008','KIA')
+/*******************************************/
+insert into Trip values(1,1,'2020-04-11',1,5,4.77,3,1,25)
+insert into Trip values(1,3,'2020-04-04',2,5,4.75,3,1,25)
+insert into Trip values(2,2,'2020-05-05',3,5,3.7,4,1,25)
+insert into Trip values(2,3,'2020-02-06',1,6,5.0,3,1,25)
+insert into Trip values(3,3,'2020-04-21',1,3,4.5,3,1,25)
+insert into Trip values(4,2,'2020-02-14',4,5,1.0,3,1,25)
+insert into Trip values(4,3,'2020-04-16',5,8,2.77,5,1,80)
+insert into Trip values(5,5,'2020-03-23',9,1,4.77,3,1,55)
+insert into Trip values(5,3,'2020-04-24',8,1,4.77,3,1,25)
+insert into Trip values(5,1,'2020-04-27',1,4,4.77,3,3,25)
+insert into Trip values(7,2,'2020-05-28',1,6,4.77,3,2,75)
+insert into Trip values(8,5,'2020-05-01',6,8,5.0,3,2,45)
+insert into Trip values(9,5,'2020-04-02',7,4,2.7,3,2,60)
+insert into Trip values(10,5,'2020-01-07',1,7,3.7,3,2,105)
+insert into Trip values(10,5,'2020-01-08',1,8,2.7,3,3,35)
+insert into Trip values(10,5,'2020-04-06',1,9,2.5,3,2,25)
+insert into Trip values(10,6,'2020-04-03',1,10,4.5,3,2,50)
+
+/****************************************************Queries*************************************************************/
+-- (a.1) What was the area that had the most ride requests last month?
+-- For getting the last month use the DATEPART to get the result month of adding -1 month (subtracting one month) to the current date 
+-- We also need to make sure that we are still in the same year (e.g., April 2020 not April 2019 if we are in May 2020)
+SELECT TOP 1 a.name as MostRideArea, COUNT(*) as NumberOfRides
+FROM Trip as t
+JOIN Area as a
+ON t.toAreaId = a.Id
+WHERE DATEPART(m, t.tripDate) = DATEPART(m, DATEADD(m, -1, getdate()))
+AND DATEPART(yyyy, t.tripDate) = DATEPART(yyyy, DATEADD(m, -1, getdate()))
+GROUP BY a.name
+ORDER BY NumberOfRides DESC
+
+-- (a.2) What was the area that had the most/least ride requests last month?
+SELECT TOP 1 a.name as LeastRideArea, COUNT(*) as NumberOfRides
+FROM Trip as t
+JOIN Area as a
+ON t.toAreaId = a.Id
+WHERE DATEPART(m, t.tripDate) = DATEPART(m, DATEADD(m, -1, getdate()))
+AND DATEPART(yyyy, t.tripDate) = DATEPART(yyyy, DATEADD(m, -1, getdate()))
+GROUP BY a.name
+ORDER BY NumberOfRides
+
+-- (b) Who were the drivers with the maximum number of rides last month?
+SELECT *
+FROM (
+SELECT d.name as DriverName, COUNT(*) as NumberOfRides
+FROM Trip as t 
+JOIN Vehicle as v 
+ON t.vehicleId = v.Id 
+JOIN Driver as d 
+ON v.driverId = d.Id 
+GROUP BY d.name 
+HAVING count(*) = (select max(NumberOfRides) FROM (SELECT d.name as DriverName, COUNT(*) as NumberOfRides FROM Trip as t JOIN Vehicle as v ON t.vehicleId = v.Id JOIN Driver as d ON v.driverId = d.Id GROUP BY d.name) Trip)
+) as cmobined
+
+-- (c) For each driver, retrieve all his/her information and the number of rides he/she had.
+SELECT d.id as DriverId,
+d.name as DriverName,
+d.address as DriverAddress,
+d.dob as DriverDateOfBirth, 
+d.mobile as DriverMobileNumber,
+d.license as DriverLicense,
+d.joindate as DriverJoinDate, 
+count(*) as DriverNumOfRides
+FROM Driver as d 
+JOIN Vehicle as v 
+ON d.id = v.driverId 
+JOIN Trip as t 
+ON v.Id = t.vehicleId 
+GROUP BY d.id, d.name, d.address, d.dob, d.mobile, d.license, d.joindate;
+
+-- (d) Which driver got at least 4.5 out of 5 on every user rating he/she got? (FOR ANY)
+SELECT innerq.dname as DriverName
+FROM (SELECT d.name as dname, count(*) as nor, SUM(t.rating) as nor1
+FROM Driver as d 
+JOIN Vehicle as v 
+ON d.id = v.driverId 
+JOIN Trip as t 
+ON v.Id = t.vehicleId 
+GROUP BY d.name
+HAVING SUM(t.rating) >= 4.5 * count(*)) as innerq
+
+-- (e) Who were the drivers that didn’t have any ride last month?
+SELECT d.Id as DriverId, d.name as DriverName
+FROM Driver d
+WHERE NOT EXISTS (SELECT t.Id FROM Vehicle as v JOIN Trip as t ON v.Id = t.vehicleId 
+WHERE v.driverId = d.Id 
+AND DATEPART(m, t.tripDate) = DATEPART(m, DATEADD(m, -1, getdate()))
+AND DATEPART(yyyy, t.tripDate) = DATEPART(yyyy, DATEADD(m, -1, getdate())))
+
+-- (f) What is the most type of vehicle (car, bus, and scooter) requested last month?
+SELECT *
+FROM (
+SELECT vt.name as VehicleType, COUNT(*) as NumberOfRequests
+FROM VehicleType as vt
+JOIN Vehicle as v 
+ON vt.Id = v.typeId
+JOIN Trip as t 
+ON v.Id = t.vehicleId 
+WHERE DATEPART(m, t.tripDate) = DATEPART(m, DATEADD(m, -1, getdate()))
+AND DATEPART(yyyy, t.tripDate) = DATEPART(yyyy, DATEADD(m, -1, getdate()))
+GROUP BY vt.name
+HAVING count(*) = (select max(NumberOfRequests) FROM (SELECT vt.name as VehicleType, COUNT(*) as NumberOfRequests FROM VehicleType as vt JOIN Vehicle as v ON vt.Id = v.typeId JOIN Trip as t ON v.Id = t.vehicleId WHERE DATEPART(m, t.tripDate) = DATEPART(m, DATEADD(m, -1, getdate())) AND DATEPART(yyyy, t.tripDate) = DATEPART(yyyy, DATEADD(m, -1, getdate())) GROUP BY vt.name) Trip)
+) as cmobined
